@@ -1,0 +1,10 @@
+//run        prog1 
+		   
+#delete      
+   ##delete myfile
+    
+   ///copy file1 file2
+      
+##print myfile
+		
+/run script		

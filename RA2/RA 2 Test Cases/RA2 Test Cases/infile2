@@ -1,0 +1,13 @@
+run        prog1 
+//		   
+delete      
+### execute next command
+delete myfile
+
+    
+copy file1 file2
+
+// welcome to cs 280   
+print myfile
+		
+// terminate script		

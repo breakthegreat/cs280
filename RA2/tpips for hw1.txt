@@ -1,0 +1,1 @@
+getline to get the whole line

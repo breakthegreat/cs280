@@ -1,0 +1,8 @@
+Enter the name of a file to read from:
+
+Total Number of Lines: 10
+Number of commented lines: 2
+Maximum Length of commented lines: 19
+Maximum Length of non-commented lines: 22
+Commented line of maximum length: "//run        prog1 "
+Non-commented line of maximum length: "   ///copy file1 file2"

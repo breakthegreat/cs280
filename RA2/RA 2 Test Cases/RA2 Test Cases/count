@@ -1,0 +1,29 @@
+ASSIGNMENT=countSP23
+
+ex=~/$ASSIGNMENT
+
+cd $LIB/public/RA_Spring2023/RA2
+
+[ ! -e $ex ] && echo Cannot find the program, please build it! && exit 1
+
+ofile=`mktemp`
+ 
+for i in 0 1 2 3 4 5;
+do
+	score=0
+	args=case$i
+    echo RUNNING $args 
+    eval $LIB/public/wrapcase.pl -- "bash -c \"$ex < $args 2>&1\"" | tee $ofile
+
+    ## for setup ## cp $ofile $args.correct
+
+    diff $ofile $args.correct
+
+    [ $? -eq 0 ] && score=1 
+
+    echo RESULT: $args "[ " $score " / 1 ]"
+
+    rm $ofile
+done
+
+exit $score
