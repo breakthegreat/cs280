@@ -1,0 +1,7 @@
+# Various operations on scalar variables.
+$fred = "Fred here";
+$barney = 56 ;
+$sum = 10 + $barney * 2.5 ;
+$total = $sum - 0.25 * $sum ;
+print 'The variable $fred ' . " contains $fred .\n";
+print "Sum is $sum .\n";

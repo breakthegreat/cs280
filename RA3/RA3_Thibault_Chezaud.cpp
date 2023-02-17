@@ -64,8 +64,8 @@ int type2(string text)
       }
     }
   }
-  //return number of type2 words Type 2 names must start by @character.
-  
+  // return number of type2 words Type 2 names must start by @character.
+
   return count;
 }
 
@@ -73,10 +73,9 @@ int words(string text)
 {
   int count = 0; // might needto revert this
   istringstream ss(text);
-  string tp, tp2;
+  string tp;
 
- 
-  while (ss >> tp2)
+  while (ss >> tp)
   {
 
     count += 1;

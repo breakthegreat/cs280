@@ -1,0 +1,18 @@
+Number of integers in the file: 12
+Number of reals in the file: 2
+Number of special names in the file: 0
+
+List of integer values and their number of occurrences:
+-125: 1
+-45: 3
+100: 1
+125: 1
+278: 1
+1025: 1
+1234: 1
+3456: 2
+4321: 1
+
+List of real values and their number of occurrences:
+-0.45: 1
+2.375: 1

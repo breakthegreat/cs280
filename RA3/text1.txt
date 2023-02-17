@@ -12,3 +12,5 @@ print ' @fred has ', " $fredsize elements.\n";
 # The $#name gives the max subscript (size less one).
 print "Max sub is $#fred\n";
 
+
+$_num
