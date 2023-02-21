@@ -55,9 +55,10 @@ int main(int argc, char *argv[])
       cout << "UNRECOGNIZED FLAG {" << argv[i] << "}";
       exit(1);
     }
+ 
   } 
 
-*/
+ */
 
 
 
@@ -81,45 +82,19 @@ int main(int argc, char *argv[])
     cout << "CANNOT OPEN THE FILE " << filename << endl;
     exit(1);
   }
-  int lineCount = 0;
-  string line;
-
-//istream in = myArray[0];
+  int lineCount = 1;
+  //string line;
 
 
 
 
 
 
-getNextToken(inClientFile, lineCount);
-
-
-
-
-
+    LexItem tok;
+  while((tok = getNextToken(inClientFile, lineCount)) != DONE && tok != ERR ) {
+    cout << "Lexeme: "<< tok.GetLexeme() << " FOR TOKEN: " << tok.GetToken() << " LINE: " << tok.GetLinenum() <<endl;
   
-
- 
-       
-    
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+  }
+  
 
 } // END OF MAIN

@@ -8,15 +8,14 @@ using namespace std;
 
 int main (int argc, char *argv[]) { 
 
-string myPhrase = "";
-regex IDENT("([a-z]|[A-Z]|_)([a-z A-Z]*[0-9]*[_]*)");
-regex NIDENT("\\$([a-z A-Z]|_)([a-z A-Z]|[0-9]|[_])*");
-regex SIDENT("@([a-z A-Z]|_)([a-z A-Z]|[0-9]|[_])*");
-regex SCONST("\\'.+\\'");
+string myPhrase = "   'dwdw '   ";
 
-if(regex_match(myPhrase,SCONST)){
+regex SCONST("\\s*\\'(.)+\\'\\s*");
+smatch match;
+if(regex_match(myPhrase,match,SCONST)){
 cout << "MaTCH " << endl;
-
+string myMatch = match[0].str();
+cout << myMatch << endl;
 }
 else{
 
