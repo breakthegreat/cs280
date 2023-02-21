@@ -31,10 +31,10 @@ enum Token {
 	
 	COMMA, SEMICOL,
 		// any error returns this token
-	ERR,
+	ERR, // 30
 
 		// when completed (EOF), return this token
-	DONE,
+	DONE, // 31
 };
 
 
