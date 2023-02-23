@@ -13,7 +13,7 @@ enum tokState
    IDENTIFIER, //[Letter _] {( Letter | Digit | _ )}
    NUMS,       //[0-9] CAN ALSO BE FLOAT POINT
    STRING,
-   OP      // WORDS IN BETWEEN QUOTATION MARKS
+   OP // WORDS IN BETWEEN QUOTATION MARKS
 
 };
 
@@ -77,34 +77,74 @@ LexItem getNextToken(istream &in, int &linenumber)
          else if (ch == '-')
          {
 
-
-
             // IMPLEMENT THE FUCKING -eq, -lt and -gt dumbfuck
 
             char tp = in.peek();
-            if(isalpha(tp)){
-               
-               lexState = tokState::OP;
-               
-               
+            if (isalpha(tp))
+            {
+
+               string code;
+               {
+
+                  while (in.get(ch))
+                  {
+
+                     if (isspace(ch))
+                     {
+                        break;
+                     }
+                     if (ch == '\n')
+                     {
+                        linenumber += 1;
+                        break;
+                     }
+
+                     code += ch;
+                  }
+
+                  // end while loop
+
+                  if (code == "eq")
+                  {
+                     LexItem temp(SEQ, "-eq", linenumber); // when reaching the end of the while loop program is DONE
+
+                     return temp;
+                  }
+                  if (code == "gt")
+                  {
+                     LexItem temp(SGTHAN, "-gt", linenumber); // when reaching the end of the while loop program is DONE
+
+                     return temp;
+                  }
+                  if (code == "lt")
+                  {
+                     LexItem temp(SLTHAN, "-lt", linenumber); // when reaching the end of the while loop program is DONE
+
+                     return temp;
+                  }
+                  else
+                  {
+
+                     for (int i = code.length(); i >= 0; i--)
+                     {
+
+                        in.putback(code[i]); // MIGHT NEED TO FIX EOF
+                     }
+
+                     LexItem temp(MINUS, "-", linenumber);
+                     return temp;
+                  }
+               }
+            }
+            else
+            {
+
                LexItem temp(MINUS, "-", linenumber);
 
-            return temp;
-            
-
+               return temp;
             }
-            else{
-            
-            LexItem temp(MINUS, lexeme, linenumber);
-
-            return temp;
-            }
-
-
-
-            
-           
          }
+
          else if (ch == '*')
          {
             // USE PEEK SLIDE NUMBER 12 ON PA 1 DESCRIPTION
@@ -126,8 +166,11 @@ LexItem getNextToken(istream &in, int &linenumber)
          else if (ch == '=')
          {
             // USE PEEK
-            if (in.get(ch).peek() == '=')
+            if (in.peek() == '=')
             {
+               LexItem temp(ASSOP, lexeme, linenumber);
+
+               return temp;
             }
 
             LexItem temp(ASSOP, lexeme, linenumber);
@@ -223,8 +266,19 @@ LexItem getNextToken(istream &in, int &linenumber)
 
          else if (ch == '_' || isalpha(ch))
          {
+            char tp = in.peek();
 
-            lexState = tokState::IDENTIFIER;
+            if (tp == '\n' || isspace(tp) || tp == EOF)
+            {
+
+               LexItem temp(IDENT, lexeme, linenumber);
+               return temp;
+            }
+            else
+            {
+
+               lexState = tokState::IDENTIFIER;
+            }
          }
          else if (isdigit(ch))
          {
@@ -281,7 +335,7 @@ LexItem getNextToken(istream &in, int &linenumber)
             if (!isalnum(tp) && tp != '_')
             {
 
-               LexItem temp(SIDENT, lexeme, linenumber);
+               LexItem temp(NIDENT, lexeme, linenumber);
 
                return temp;
 
@@ -319,7 +373,7 @@ LexItem getNextToken(istream &in, int &linenumber)
                if (!isalnum(tp) && tp != '_')
                {
 
-                  LexItem temp(SIDENT, lexeme, linenumber);
+                  LexItem temp(NIDENT, lexeme, linenumber);
 
                   return temp;
 
@@ -426,7 +480,7 @@ LexItem getNextToken(istream &in, int &linenumber)
                   break;
                }
 
-                if (isspace(ch))
+               if (isspace(ch))
                {
 
                   break;
@@ -438,7 +492,7 @@ LexItem getNextToken(istream &in, int &linenumber)
 
                   goodChar = true;
                }
-               
+
                else
                {
                   goodChar = false;
@@ -538,7 +592,7 @@ LexItem getNextToken(istream &in, int &linenumber)
 
          if (isFloat)
          {
-
+            in.putback(ch);
             LexItem temp(RCONST, lexeme, linenumber);
             return temp;
             lexState = tokState::START;
@@ -570,67 +624,14 @@ LexItem getNextToken(istream &in, int &linenumber)
          }
          else
          {
+            lexeme.erase(0, 1);
+            lexeme.erase(lexeme.length() - 1, 1);
             LexItem temp(SCONST, lexeme, linenumber);
             return temp;
             lexState = tokState::START;
          }
-        
-      
-      
-      
-      
       }
 
-
-      case OP:
-      string code; 
-      {
-         
-         while(in.get(ch)){
-
-
-            if(isspace(ch)){
-               break;
-            }
-            if(ch == '\n'){
-               linenumber += 1;
-               break;
-            }
-            
-         code += ch;
-            
-            
-
-
-         }// end while loop
-
-      if(code == "eq"){
-         LexItem temp(SEQ, code, linenumber); // when reaching the end of the while loop program is DONE
-
-   return temp;
-      }
-      if(code == "gt"){
-         LexItem temp(SGTHAN, code, linenumber); // when reaching the end of the while loop program is DONE
-
-   return temp;
-      }
-       if(code == "lt"){
-         LexItem temp(SLTHAN, code, linenumber); // when reaching the end of the while loop program is DONE
-
-   return temp;
-      }
-      else{
-        
-         LexItem temp(IDENT,code,linenumber);
-         return temp;
-
-      }
-
-
-
-
-
-      } // END CASE OP
       } // END LexState SWITCH CASE
 
    }                                       // END WHILE LOOP
@@ -641,21 +642,50 @@ LexItem getNextToken(istream &in, int &linenumber)
 
 LexItem id_or_kw(const string &lexeme, int linenum)
 {
+   map<Token, string> tokenName;
+
+   string tokeNames[31] = {"WRITELN", "IF", "ELSE", "IDENT", "NIDENT", "SIDENT",
+                           "ICONST", "RCONST", "SCONST", "PLUS", "MINUS", "MULT", "DIV", "EXPONENT", "ASSOP",
+                           "LPAREN", "RPAREN", "LBRACES", "RBRACES", "NEQ", "NGTHAN", "NLTHAN", "CAT", "SREPEAT", "SEQ", "SLTHAN", "SGTHAN", "COMMA", "SEMICOL", "ERR", "DONE"
+
+   };
+
+
+   for (int i = 0; i < 31; ++i)
+   {
+      Token[i] = tokeNames[i];
+   }
+   
 
 
 }
 
 ostream &operator<<(ostream &out, const LexItem &tok)
+
 {
+
+   map<int, string> tokenName;
+
+   string tokeNames[31] = {"WRITELN", "IF", "ELSE", "IDENT", "NIDENT", "SIDENT",
+                           "ICONST", "RCONST", "SCONST", "PLUS", "MINUS", "MULT", "DIV", "EXPONENT", "ASSOP",
+                           "LPAREN", "RPAREN", "LBRACES", "RBRACES", "NEQ", "NGTHAN", "NLTHAN", "CAT", "SREPEAT", "SEQ", "SLTHAN", "SGTHAN", "COMMA", "SEMICOL", "ERR", "DONE"
+
+   };
+
+   for (int i = 0; i < 31; ++i)
+   {
+      tokenName[i] = tokeNames[i];
+   }
 
    if (tok.GetToken() == IDENT || tok.GetToken() == NIDENT || tok.GetToken() == SIDENT ||
        tok.GetToken() == ICONST || tok.GetToken() == RCONST || tok.GetToken() == SCONST)
    {
-      out << tok.GetToken() << "(" << tok.GetLexeme() << ")";
+      out << tokeNames[tok.GetToken()] << "(" << tok.GetLexeme() << ")";
    }
    else
    {
-      out << tok.GetToken();
+
+      out << tokeNames[tok.GetToken()];
    }
 
    return out;

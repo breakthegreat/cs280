@@ -2,6 +2,7 @@
 #include <fstream>
 #include <iostream>
 #include <sstream>
+#include <map>
 #include "lex.h"
 #include "lex.cpp"
 
@@ -19,6 +20,19 @@ int main(int argc, char *argv[])
   // if(argv[1] != NULL){
   filename = "allflags.txt"; // Should be switched to argv[1] when live
   //}
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 /*
@@ -92,8 +106,8 @@ int main(int argc, char *argv[])
 
     LexItem tok;
   while((tok = getNextToken(inClientFile, lineCount)) != DONE && tok != ERR ) {
-    cout << "Lexeme: "<< tok.GetLexeme() << " FOR TOKEN: " << tok.GetToken() << " LINE: " << tok.GetLinenum() <<endl;
-  //cout << tok << endl;
+    
+  cout << tok << endl;
   }
   
   
