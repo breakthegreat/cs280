@@ -502,7 +502,10 @@ LexItem getNextToken(istream &in, int &linenumber)
             if (goodChar)
             {
 
-               LexItem temp(IDENT, lexeme, linenumber);
+
+
+               
+               LexItem temp = id_or_kw(lexeme, linenumber);
 
                return temp;
                lexState = tokState::START;
@@ -642,23 +645,92 @@ LexItem getNextToken(istream &in, int &linenumber)
 
 LexItem id_or_kw(const string &lexeme, int linenum)
 {
-   map<Token, string> tokenName;
-
-   string tokeNames[31] = {"WRITELN", "IF", "ELSE", "IDENT", "NIDENT", "SIDENT",
-                           "ICONST", "RCONST", "SCONST", "PLUS", "MINUS", "MULT", "DIV", "EXPONENT", "ASSOP",
-                           "LPAREN", "RPAREN", "LBRACES", "RBRACES", "NEQ", "NGTHAN", "NLTHAN", "CAT", "SREPEAT", "SEQ", "SLTHAN", "SGTHAN", "COMMA", "SEMICOL", "ERR", "DONE"
-
-   };
-
-
-   for (int i = 0; i < 31; ++i)
-   {
-      Token[i] = tokeNames[i];
-   }
    
+  map <string, Token> StrToTok = {
+		{"writeln", WRITELN},
+		{ "if", IF },
+		{ "else", ELSE },	
+		{ "IDENT", IDENT },
+		{ "NIDENT", NIDENT },
+		{ "SIDENT", SIDENT },
+		{ "ICONST", ICONST },
+		{ "RCONST", RCONST },
+		{ "SCONST", SCONST  },
+			
+		{ "PLUS", PLUS },
+		{ "MINUS" , MINUS },
+		{ "MULT" , MULT  },
+		{ "DIV" , DIV },
+		{ "EXPONENT" , EXPONENT },
+		{ "ASSOP", ASSOP },
+		{ "NEQ", NEQ  },
+		{ "NGTHAN" , NGTHAN  },
+		{ "NLTHAN", NLTHAN },
+		
+		{ "CAT", CAT },
+		{ "SREPEAT" , SREPEAT  },
+		{ "SEQ", SEQ },
+		{ "SGTHAN", SGTHAN },
+		{ "SLTHAN", SLTHAN },
+		            
+		{ "COMMA", COMMA  },
+		{ "LPAREN", LPAREN },
+		{ "RPAREN", RPAREN },
+		{ "LBRACES", LBRACES },
+		{ "RBRACES", RBRACES  },
+		
+		{ "SEMICOL", SEMICOL  },
+		
+		{ "ERR",ERR  },
+
+		{ "DONE", DONE },
+};
+
+map<string,Token>::iterator it;
+
+Token myToken;
+bool found = false;
+
+
+for( it = StrToTok.begin(); it != StrToTok.end(); it++ ){
+
+  if(it -> first == lexeme){
+    myToken = it -> second;
+    found = true;
+  }
+
+
+
 
 
 }
+if(!found){
+  if(isalpha(lexeme[0]) || lexeme[0] == '_'){
+   LexItem temp(IDENT, lexeme, linenum);
+   return temp;
+
+  }
+  else if(lexeme[0] == '$'){
+    LexItem temp(NIDENT, lexeme, linenum);
+   return temp;
+  }
+  else if(lexeme[0] == '@'){
+    LexItem temp(SIDENT, lexeme, linenum);
+   return temp;
+  }
+}
+else{
+
+  LexItem temp(myToken, lexeme, linenum);
+   return temp;
+}
+LexItem temp(ERR,lexeme,linenum);
+return temp;
+}
+   
+
+
+
 
 ostream &operator<<(ostream &out, const LexItem &tok)
 
