@@ -17,7 +17,7 @@ int main(int argc, char *argv[])
   // HANDLES THE ARGUMENT
 
   // if(argv[1] != NULL){
-  filename = "text1.txt"; // Should be switched to argv[1] when live
+  filename = "allflags.txt"; // Should be switched to argv[1] when live
   //}
 
 
@@ -96,5 +96,7 @@ int main(int argc, char *argv[])
   
   }
   
+   cout << "Lexeme: "<< tok.GetLexeme() << " FOR TOKEN: " << tok.GetToken() << " LINE: " << tok.GetLinenum() <<endl;
 
-} // END OF MAIN
+}
+ // END OF MAIN

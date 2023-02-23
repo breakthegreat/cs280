@@ -6,7 +6,7 @@ SIDENT(@flag)
 ASSOP
 SCONST(true)
 SEMICOL
-IDENT(if)
+IF
 LPAREN
 SIDENT(@Flag)
 MINUS
@@ -28,7 +28,7 @@ RCONST(7.5)
 RPAREN
 SEMICOL
 RBRACES
-IDENT(writeln)
+WRITELN
 SCONST(Value = )
 COMMA
 NIDENT($r)
@@ -40,11 +40,11 @@ SEMICOL
 
 Lines: 9
 Total Tokens: 39
-Identifiers: 9
+Identifiers: 7
 Numbers: 3
 Strings: 3
 IDENTIFIERS:
-$Y_1, $r, $y_1, @Flag, @flag, Else, if, seq, writeln
+$Y_1, $r, $y_1, @Flag, @flag, Else, seq
 NUMBERS:
 5
 7.5
