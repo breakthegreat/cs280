@@ -401,17 +401,19 @@ LexItem getNextToken(istream &in, int &linenumber)
                   break;
                }
 
+                if (isspace(ch))
+               {
+
+                  break;
+               }
+
                lexeme += ch;
                if (isalnum(ch) || ch == '_')
                {
 
                   goodChar = true;
                }
-               else if (isspace(ch))
-               {
-
-                  break;
-               }
+               
                else
                {
                   goodChar = false;
@@ -558,6 +560,8 @@ LexItem getNextToken(istream &in, int &linenumber)
 
 LexItem id_or_kw(const string &lexeme, int linenum)
 {
+
+
 }
 
 ostream &operator<<(ostream &out, const LexItem &tok)
@@ -566,11 +570,11 @@ ostream &operator<<(ostream &out, const LexItem &tok)
    if (tok.GetToken() == IDENT || tok.GetToken() == NIDENT || tok.GetToken() == SIDENT ||
        tok.GetToken() == ICONST || tok.GetToken() == RCONST || tok.GetToken() == SCONST)
    {
-      out << tok.GetToken() << "(" << tok.GetLexeme() << ")" << endl;
+      out << tok.GetToken() << "(" << tok.GetLexeme() << ")";
    }
    else
    {
-      out << tok.GetToken() << endl;
+      out << tok.GetToken();
    }
 
    return out;
