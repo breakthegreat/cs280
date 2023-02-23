@@ -92,8 +92,8 @@ int main(int argc, char *argv[])
 
     LexItem tok;
   while((tok = getNextToken(inClientFile, lineCount)) != DONE && tok != ERR ) {
-    //cout << "Lexeme: "<< tok.GetLexeme() << " FOR TOKEN: " << tok.GetToken() << " LINE: " << tok.GetLinenum() <<endl;
-  cout << tok << endl;
+    cout << "Lexeme: "<< tok.GetLexeme() << " FOR TOKEN: " << tok.GetToken() << " LINE: " << tok.GetLinenum() <<endl;
+  //cout << tok << endl;
   }
   
   

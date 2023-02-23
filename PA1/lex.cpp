@@ -12,7 +12,8 @@ enum tokState
    START,
    IDENTIFIER, //[Letter _] {( Letter | Digit | _ )}
    NUMS,       //[0-9] CAN ALSO BE FLOAT POINT
-   STRING      // WORDS IN BETWEEN QUOTATION MARKS
+   STRING,
+   OP      // WORDS IN BETWEEN QUOTATION MARKS
 
 };
 
@@ -76,9 +77,33 @@ LexItem getNextToken(istream &in, int &linenumber)
          else if (ch == '-')
          {
 
+
+
+            // IMPLEMENT THE FUCKING -eq, -lt and -gt dumbfuck
+
+            char tp = in.peek();
+            if(isalpha(tp)){
+               
+               lexState = tokState::OP;
+               
+               
+               LexItem temp(MINUS, "-", linenumber);
+
+            return temp;
+            
+
+            }
+            else{
+            
             LexItem temp(MINUS, lexeme, linenumber);
 
             return temp;
+            }
+
+
+
+            
+           
          }
          else if (ch == '*')
          {
@@ -527,6 +552,7 @@ LexItem getNextToken(istream &in, int &linenumber)
       } // END CASE NUM
 
       case STRING:
+      {
          while (in.get(ch))
          {
             lexeme += ch; // might be issue linux?
@@ -548,8 +574,63 @@ LexItem getNextToken(istream &in, int &linenumber)
             return temp;
             lexState = tokState::START;
          }
-         // end of WHILE loop
+        
+      
+      
+      
+      
+      }
 
+
+      case OP:
+      string code; 
+      {
+         
+         while(in.get(ch)){
+
+
+            if(isspace(ch)){
+               break;
+            }
+            if(ch == '\n'){
+               linenumber += 1;
+               break;
+            }
+            
+         code += ch;
+            
+            
+
+
+         }// end while loop
+
+      if(code == "eq"){
+         LexItem temp(SEQ, code, linenumber); // when reaching the end of the while loop program is DONE
+
+   return temp;
+      }
+      if(code == "gt"){
+         LexItem temp(SGTHAN, code, linenumber); // when reaching the end of the while loop program is DONE
+
+   return temp;
+      }
+       if(code == "lt"){
+         LexItem temp(SLTHAN, code, linenumber); // when reaching the end of the while loop program is DONE
+
+   return temp;
+      }
+      else{
+        
+         LexItem temp(IDENT,code,linenumber);
+         return temp;
+
+      }
+
+
+
+
+
+      } // END CASE OP
       } // END LexState SWITCH CASE
 
    }                                       // END WHILE LOOP
