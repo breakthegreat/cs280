@@ -76,7 +76,7 @@ LexItem getNextToken(istream &in, int &linenumber)
             char tp = in.peek();
             if (isalpha(tp))
             {
-
+            in.putback(ch);
               lexState = tokState::OP;
             }
             else
@@ -593,8 +593,9 @@ LexItem getNextToken(istream &in, int &linenumber)
          }
       } // END CASE STRING
       case OP:
+
       {
-         
+       
          
          
          char temp = in.peek();
@@ -611,6 +612,9 @@ LexItem getNextToken(istream &in, int &linenumber)
             return temp;
          }
          else if((ch == 'e' || ch == 'E') && (temp == 'q' || temp == 'Q')){
+            
+            
+            
             in.get();
             LexItem temp(SEQ, "-eq", linenumber);
             return temp;
@@ -654,9 +658,9 @@ LexItem id_or_kw(const string &lexeme, int linenum)
 
        {"CAT", CAT},
        {"SREPEAT", SREPEAT},
-       {"SEQ", SEQ},
-       {"SGTHAN", SGTHAN},
-       {"SLTHAN", SLTHAN},
+       {"-eq", SEQ},
+       {"-gt", SGTHAN},
+       {"-lt", SLTHAN},
 
        {"COMMA", COMMA},
        {"LPAREN", LPAREN},

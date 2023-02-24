@@ -4,11 +4,11 @@
 #include <sstream>
 #include <map>
 #include "lex.h"
-#include "lex.cpp"
+#include "lex.cpp" // disable this for voc
 
 using namespace std;
 
-bool v = true, nconst = true, sconst = false, ident = false;
+bool v = true, nconst = true, sconst = true, ident = true;
 string filename = "";
 
 ifstream inClientFile;
@@ -18,12 +18,11 @@ int main(int argc, char *argv[])
   // HANDLES THE ARGUMENT
 
   // if(argv[1] != NULL){
-  filename = "validops.txt"; // Should be switched to argv[1] when live
+  filename = "PA1Testcases/allflags"; // Should be switched to argv[1] when live
   //}
 
   /*
-    for (int i = 1; i < sizeof(argv); ++i)
-    {
+
       if (argv[i] == "-v")
       {
 
@@ -79,64 +78,183 @@ int main(int argc, char *argv[])
   int lineCount = 0;
   int tokenCount = 0;
   int identCount = 0;
+  int numIdent = 0;
   int numCount = 0;
   int numString = 0;
+  float numbers[100];
+  string stringConstant[100];
+  string ident[100];
+
   // string line;
- 
- // YOU SHOULD STORE TOKENS IN DIFFERENT MAPS
-    LexItem tok;
-    while ((tok = getNextToken(inClientFile, lineCount)) != DONE && tok != ERR)
+  bool isNumUnique = true;
+  bool isStringUnique = true;
+  bool isIdentUnique = true;
+  // YOU SHOULD STORE TOKENS IN DIFFERENT MAPS
+  LexItem tok;
+  while ((tok = getNextToken(inClientFile, lineCount)) != DONE && tok != ERR)
+  {
+    tokenCount++;
+    
+    
+    if (tok.GetToken() == IDENT || tok.GetToken() == SIDENT || tok.GetToken() == NIDENT)
     {
-      tokenCount++;
-      if(tok.GetToken() == IDENT || tok.GetToken() == SIDENT || tok.GetToken() == NIDENT){
-
-        identCount++;
+      numIdent++;
+      string tempSt = tok.GetLexeme() + ",";
+    
+   
+      for(int i = 0; i < identCount; ++i){
+        
+        if(ident[i] == tempSt){
+           
+          isIdentUnique = false;
+        }
       }
-      if(tok.GetToken() == ICONST || tok.GetToken() == SCONST || tok.GetToken() == RCONST){
-
-        numCount++;
-      }
-      if(tok.GetToken() == SCONST){
-
-        numString++;
-      }
-      if(v){
-      cout << tok << endl;
-      }
+   
+     // cout << tempSt << endl;
+       
       
+      if(isIdentUnique){
+       
+      //cout << tok.GetLexeme();
+      ident[identCount] = tempSt;
+      identCount++;
+     }
     }
-    if(tok.GetToken() == ERR){
-      cout << "Error in line " << tok.GetLinenum() << " (" << tok.GetLexeme() << ")";
-      exit(1);
+
+  
 
 
-    }
-    if(tok.GetToken() == DONE){
-      cout << endl;
-      cout << "Lines: " << tok.GetLinenum() << endl;
-      cout << "Total Tokens: " << tokenCount << endl;
-      cout << "Identifiers: " << identCount << endl;
-      cout << "Numbers: " << numCount << endl;
-      cout << "Strings: " << numString << endl;
+    if (tok.GetToken() == ICONST || tok.GetToken() == RCONST)
+    {
+      isNumUnique = true;
+      float tp = stof(tok.GetLexeme());
 
-    }
- 
-if(nconst){
-     //if present, prints out all the unique numeric constants (i.e., integer or
-//real) in numeric order
+      for (int i = 0; i < numCount; ++i)
+      {
+        if (numbers[i] == tp)
+        {
+          isNumUnique = false;
+          numCount--;
+        }
       }
 
-if(sconst){
-     //if present, prints out all the unique string constants in alphabetical order
+      if (isNumUnique)
+      {
+        numbers[numCount] = tp;
       }
-if(ident){
-  //if present, prints out all of the unique identifiers in alphabetical order
-}
+      numCount++;
+    }
+
+    if (tok.GetToken() == SCONST)
+    {
+
+      for (int i = 0; i < numString; ++i)
+      {
+        isStringUnique = true;
+        string tempSt = "'" + tok.GetLexeme() + "'";
+        if (stringConstant[i] == tempSt)
+        {
+          isStringUnique = false;
+          numString--;
+        }
+      }
+      if (isStringUnique)
+      {
+        stringConstant[numString] = "'" + tok.GetLexeme() + "'";
+      }
+      numString++;
+    }
+    if (v)
+    {
+      cout << tok << endl;
+    }
+  }
+
+  if (tok.GetToken() == ERR)
+  {
+    cout << "Error in line " << tok.GetLinenum() << " (" << tok.GetLexeme() << ")";
+    exit(1);
+  }
+  if (tok.GetToken() == DONE)
+  {
+    tokenCount++;
+    cout << endl;
+    cout << "Lines: " << tok.GetLinenum() << endl;
+    cout << "Total Tokens: " << tokenCount << endl;
+    cout << "Identifiers: " << numIdent << endl;
+    cout << "Numbers: " << numCount << endl;
+    cout << "Strings: " << numString << endl;
+
 
 
   }
 
+  
+  
+  
+  
+  
+  
+  
+  
 
+  
+  
+  if (ident)
+  {
+    
+    
+   
+    
+    cout<<"IDENTIFIERS:"<<endl;
+   
+   
+   
+   
+    sort(ident, ident + identCount);
 
+     
+    for (int i = 0; i < identCount; i++)
+    {
+      if(i == identCount - 1){
+        ident[i].erase(i,1);
+      }
+
+      
+      cout << ident[i] << " ";
+      
+    }
+    cout << endl;
+
+    // if present, prints out all of the unique identifiers in alphabetical order
+  }
+
+  if (nconst)
+  {
+
+    sort(numbers, numbers + numCount);
+
+    cout << "NUMBERS:" << endl;
+
+    for (int i = 0; i < numCount; i++)
+    {
+      cout << numbers[i] << endl;
+    }
+
+    // if present, prints out all the unique numeric constants (i.e., integer or
+    // real) in numeric order
+  }
+  if (sconst)
+  {
+    cout << "STRINGS:" << endl;
+    sort(stringConstant, stringConstant + numString);
+    for (int i = 0; i < numString; i++)
+    {
+      cout << stringConstant[i] << endl;
+    }
+  }
+
+  // if present, prints out all the unique string constants in alphabetical order
+}
 
 // END OF MAIN
