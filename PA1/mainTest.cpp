@@ -3,12 +3,13 @@
 #include <iostream>
 #include <sstream>
 #include <map>
+#include <cstring>
 #include "lex.h"
 #include "lex.cpp" // disable this for voc
 
 using namespace std;
 
-bool v = true, nconst = true, sconst = true, ident = true;
+bool fv = true, fnconst = true, fsconst = true, fident = true;
 string filename = "";
 
 ifstream inClientFile;
@@ -17,53 +18,76 @@ int main(int argc, char *argv[])
 {
   // HANDLES THE ARGUMENT
 
-  // if(argv[1] != NULL){
+   //if(argv[1] != NULL){
   filename = "PA1Testcases/allflags"; // Should be switched to argv[1] when live
-  //}
+ // }
 
-  /*
+/*
 
-      if (argv[i] == "-v")
+
+bool goodFlag;
+    
+  for(int i = 2; i < argc; i++){
+        
+      
+      
+      
+      
+      goodFlag = false;
+      
+      
+      
+      
+      
+      
+      
+      if (strcmp(argv[i], "-v") == 0)
       {
 
-        v = true;
+        fv = true;
+          goodFlag = true;
       }
-      else if (argv[i] == "-nconst")
+       if (strcmp(argv[i], "-nconst") == 0)
       {
-        nconst = true;
+        fnconst = true;
+            goodFlag = true;
       }
-      else if (argv[i] == "-sconst")
+       if (strcmp(argv[i], "-sconst") == 0)
       {
 
-        sconst = true;
+        fsconst = true;
+            goodFlag = true;
       }
-      else if (argv[i] == "-ident")
+      if (strcmp(argv[i], "-ident") == 0)
       {
 
-        ident = true;
+        fident = true;
+           goodFlag = true;
       }
-      else if (argv[i][0] != '-')
+      if (argv[i][0] != '-')
       {
-        cout << "ONLY ONE FILE NAME IS ALLOWED" << endl;
+        cout << "ONLY ONE FILE NAME IS ALLOWED." << endl;
         exit(1);
       }
-
-      else
-      {
-
-        cout << "UNRECOGNIZED FLAG {" << argv[i] << "}";
-        exit(1);
+      if(goodFlag == false){
+      cout << "UNRECOGNIZED FLAG {" << argv[i] << "}" << endl;
+          exit(1);
+      
       }
+      
+      
+
 
     }
-
-   */
+    
+*/
+   
 
   // CHECKS FOR FILENAME EMPTY OR WRONG
   if (filename == "")
   {
 
-    cout << "NO SPECIFIED INPUT FILE" << endl;
+    cout << "NO SPECIFIED INPUT FILE." << endl;
     exit(1);
   }
 
@@ -75,10 +99,18 @@ int main(int argc, char *argv[])
     cout << "CANNOT OPEN THE FILE " << filename << endl;
     exit(1);
   }
-  int lineCount = 0;
+   if(inClientFile.peek()== EOF){
+   cout<< "Lines: 0" << endl;
+       cout << "Empty File." << endl;
+       exit(1);
+   
+   }
+    
+    
+  int lineCount = 1;
   int tokenCount = 0;
   int identCount = 0;
-  int numIdent = 0;
+
   int numCount = 0;
   int numString = 0;
   float numbers[100];
@@ -93,32 +125,46 @@ int main(int argc, char *argv[])
   LexItem tok;
   while ((tok = getNextToken(inClientFile, lineCount)) != DONE && tok != ERR)
   {
-    tokenCount++;
-    
+  
+  isNumUnique = true;
+  isStringUnique = true;
+  isIdentUnique = true;
+      if (fv)
+    {
+      
+      cout << tok << endl;
+    }
     
     if (tok.GetToken() == IDENT || tok.GetToken() == SIDENT || tok.GetToken() == NIDENT)
     {
-      numIdent++;
-      string tempSt = tok.GetLexeme() + ",";
+      
+      
+      string tempSt = tok.GetLexeme();
     
    
       for(int i = 0; i < identCount; ++i){
         
+
+
+     
+
         if(ident[i] == tempSt){
            
           isIdentUnique = false;
         }
+       
       }
-   
-     // cout << tempSt << endl;
-       
+
+       if(isIdentUnique){
       
-      if(isIdentUnique){
-       
+        ident[identCount] = tempSt;
+        identCount++;
       //cout << tok.GetLexeme();
-      ident[identCount] = tempSt;
-      identCount++;
+     
      }
+    
+    
+    
     }
 
   
@@ -164,24 +210,27 @@ int main(int argc, char *argv[])
       }
       numString++;
     }
-    if (v)
-    {
-      cout << tok << endl;
-    }
-  }
+  tokenCount++;
 
+  
+  
+  }
+     
   if (tok.GetToken() == ERR)
   {
+    
     cout << "Error in line " << tok.GetLinenum() << " (" << tok.GetLexeme() << ")";
     exit(1);
   }
+
+ 
   if (tok.GetToken() == DONE)
   {
-    tokenCount++;
+    
     cout << endl;
-    cout << "Lines: " << tok.GetLinenum() << endl;
+    cout << "Lines: " << lineCount << endl;
     cout << "Total Tokens: " << tokenCount << endl;
-    cout << "Identifiers: " << numIdent << endl;
+    cout << "Identifiers: " << identCount << endl;
     cout << "Numbers: " << numCount << endl;
     cout << "Strings: " << numString << endl;
 
@@ -200,7 +249,7 @@ int main(int argc, char *argv[])
 
   
   
-  if (ident)
+  if (fident)
   {
     
     
@@ -214,22 +263,37 @@ int main(int argc, char *argv[])
     sort(ident, ident + identCount);
 
      
-    for (int i = 0; i < identCount; i++)
+    for (int index = 0; index < identCount; index++)
     {
-      if(i == identCount - 1){
-        ident[i].erase(i,1);
-      }
+    if(identCount == 1){
 
-      
-      cout << ident[i] << " ";
+      cout << ident[index];
       
     }
+     else if(index == identCount -1 ){
+
+          cout << " "<<ident[index];
+      }
+    else if(index == 0){
+
+    cout << ident[index] << ",";
+
+    }
+
+      else{
+      cout << " " << ident[index] << ",";
+      }
+    }
+    
+      
+        
+      
     cout << endl;
 
     // if present, prints out all of the unique identifiers in alphabetical order
   }
 
-  if (nconst)
+  if (fnconst)
   {
 
     sort(numbers, numbers + numCount);
@@ -244,7 +308,7 @@ int main(int argc, char *argv[])
     // if present, prints out all the unique numeric constants (i.e., integer or
     // real) in numeric order
   }
-  if (sconst)
+  if (fsconst)
   {
     cout << "STRINGS:" << endl;
     sort(stringConstant, stringConstant + numString);
@@ -253,6 +317,7 @@ int main(int argc, char *argv[])
       cout << stringConstant[i] << endl;
     }
   }
+  //cout << endl;
 
   // if present, prints out all the unique string constants in alphabetical order
 }
