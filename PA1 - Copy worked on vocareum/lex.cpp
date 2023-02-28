@@ -657,12 +657,40 @@ LexItem id_or_kw(const string &lexeme, int linenum)
        {"writeln", WRITELN},
        {"if", IF},
        {"else", ELSE},
-      
+       {"IDENT", IDENT},
+       {"NIDENT", NIDENT},
+       {"SIDENT", SIDENT},
+       {"ICONST", ICONST},
+       {"RCONST", RCONST},
+       {"SCONST", SCONST},
+
+       {"PLUS", PLUS},
+       {"MINUS", MINUS},
+       {"MULT", MULT},
+       {"DIV", DIV},
+       {"EXPONENT", EXPONENT},
+       {"ASSOP", ASSOP},
+       {"NEQ", NEQ},
+       {"NGTHAN", NGTHAN},
+       {"NLTHAN", NLTHAN},
+
+       {"CAT", CAT},
+       {"SREPEAT", SREPEAT},
        {"-eq", SEQ},
        {"-gt", SGTHAN},
        {"-lt", SLTHAN},
 
-     
+       {"COMMA", COMMA},
+       {"LPAREN", LPAREN},
+       {"RPAREN", RPAREN},
+       {"LBRACES", LBRACES},
+       {"RBRACES", RBRACES},
+
+       {"SEMICOL", SEMICOL},
+
+       {"ERR", ERR},
+
+       {"DONE", DONE},
    };
 
    map<string, Token>::iterator it;

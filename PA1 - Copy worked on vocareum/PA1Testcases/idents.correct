@@ -1,0 +1,36 @@
+IDENT(PROGRAM)
+IDENT(prog1)
+NIDENT($x1)
+ASSOP
+CAT
+ICONST(5)
+SEMICOL
+SIDENT(@_y1)
+SEMICOL
+SIDENT(@str)
+ASSOP
+SCONST(Welcome)
+CAT
+SIDENT(@_y1)
+SEMICOL
+IDENT(float)
+IDENT(z)
+ASSOP
+RCONST(0.0)
+COMMA
+IDENT(_45)
+COMMA
+IDENT(___75)
+IDENT(r_25)
+ASSOP
+RCONST(50.)
+SEMICOL
+IDENT(END)
+
+Lines: 10
+Total Tokens: 28
+Identifiers: 11
+Numbers: 3
+Strings: 1
+IDENTIFIERS:
+$x1, @_y1, @str, END, PROGRAM, _45, ___75, float, prog1, r_25, z

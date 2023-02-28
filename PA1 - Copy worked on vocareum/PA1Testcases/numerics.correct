@@ -1,0 +1,24 @@
+RCONST(23.5)
+RCONST(15.25)
+ICONST(4587)
+RCONST(0.75)
+ICONST(128)
+ICONST(256)
+CAT
+ICONST(8)
+RCONST(0.47)
+
+Lines: 3
+Total Tokens: 9
+Identifiers: 0
+Numbers: 8
+Strings: 0
+NUMBERS:
+0.47
+0.75
+8
+15.25
+23.5
+128
+256
+4587

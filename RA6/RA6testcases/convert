@@ -1,0 +1,41 @@
+ASSIGNMENT=progRA6
+
+ex=~/$ASSIGNMENT
+
+cd $LIB/public/RA_Spring2023/RA6
+
+[ ! -e $ex ] && echo Cannot find the program, please build it! && exit 1
+ 
+ofile=`mktemp`
+infile=~/DecToBaseN.cpp
+cases=("" "case1" "case2" "case3" "case4" "case5" "case6" "case7")
+ 
+ 
+for i in 1 2 3 4 5 6 7;
+do
+    score=0
+    
+    echo RUNNING ${cases[i]}
+
+    eval $LIB/public/wrapcase.pl -- "bash -c \"$ex < ${cases[$i]} 2>&1\"" | tee $ofile
+
+    rc1=0
+    rc2=0
+    
+    diff $ofile ${cases[i]}.correct
+    
+    rc1=$?              
+             
+    egrep 'for|while|vector' $infile 
+        
+    rc2=$?
+
+    [ $rc1 -eq 0 -a $rc2 -ne 0 ] && score=1
+    echo RESULT: ${cases[i]}  "[ " $score " / 1 ]"
+        
+    echo "-----------------------------------------------------"
+
+    rm $ofile
+done
+   
+exit $score

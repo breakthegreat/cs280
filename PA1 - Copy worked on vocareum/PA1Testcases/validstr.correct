@@ -1,0 +1,13 @@
+SCONST(Please type the "coordinates" of three points)
+SCONST(The center of the circle through these points is)
+SCONST(Its radius is )
+
+Lines: 6
+Total Tokens: 3
+Identifiers: 0
+Numbers: 0
+Strings: 3
+STRINGS:
+'Its radius is '
+'Please type the "coordinates" of three points'
+'The center of the circle through these points is'
