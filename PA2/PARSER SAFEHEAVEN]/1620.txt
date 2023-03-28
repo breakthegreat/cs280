@@ -1,0 +1,540 @@
+/* Implementation of Recursive-Descent Parser
+ * parser.cpp
+ * Programming Assignment 2
+ * Spring 2023
+ */
+
+#include "parser.h"
+
+map<string, bool> defVar;
+map<string, Token> SymTable;
+
+namespace Parser
+{
+	bool pushed_back = false;
+	LexItem pushed_token;
+
+	static LexItem GetNextToken(istream &in, int &line)
+	{
+		if (pushed_back)
+		{
+			pushed_back = false;
+			return pushed_token;
+		}
+		return getNextToken(in, line);
+	}
+
+	static void PushBackToken(LexItem &t)
+	{
+		if (pushed_back)
+		{
+			abort();
+		}
+		pushed_back = true;
+		pushed_token = t;
+	}
+
+}
+
+static int error_count = 0;
+
+int ErrCount()
+{
+	return error_count;
+}
+
+void ParseError(int line, string msg)
+{
+	++error_count;
+	cout << error_count << ". Line # " << line << ": " << msg << endl;
+}
+
+// WritelnStmt:= WRITELN (ExpreList)
+bool WritelnStmt(istream &in, int &line)
+{
+	LexItem t;
+	// cout << "in Writeln Stmt" << endl;
+
+	t = Parser::GetNextToken(in, line);
+	if (t != LPAREN)
+	{
+
+		ParseError(line, "Missing Left Parenthesis of Writeln Statement");
+		return false;
+	}
+
+	bool ex = ExprList(in, line);
+
+	if (!ex)
+	{
+		ParseError(line, "Missing expression list after Print");
+		return false;
+	}
+
+	t = Parser::GetNextToken(in, line);
+	if (t != RPAREN)
+	{
+
+		ParseError(line, "Missing Right Parenthesis of Writeln Statement");
+		return false;
+	}
+	// Evaluate: print out the list of expressions values
+
+	return true;
+} // End of WritelnStmt
+
+// ExprList:= Expr {,Expr}
+bool ExprList(istream &in, int &line)
+{
+
+	bool status = false;
+	// cout << "in ExprList and before calling Expr" << endl;
+	status = Expr(in, line);
+	if (!status)
+	{
+
+		ParseError(line, "Missing Expression");
+		return false;
+	}
+
+	LexItem tok = Parser::GetNextToken(in, line);
+
+	if (tok == COMMA)
+	{
+		// cout << "before calling ExprList" << endl;
+		status = ExprList(in, line);
+		// cout << "after calling ExprList" << endl;
+	}
+	else if (tok.GetToken() == ERR)
+	{
+		ParseError(line, "Unrecognized Input Pattern");
+		cout << "(" << tok.GetLexeme() << ")" << endl;
+		return false;
+	}
+	else
+	{
+		Parser::PushBackToken(tok);
+		return true;
+	}
+	return status;
+} // End of ExprList
+
+bool Prog(istream &in, int &line)
+{
+	// line = line - 1;
+// line = line - 1;
+
+	
+	LexItem t;
+
+	bool status = true;
+	while ((t = Parser::GetNextToken(in, line)) != DONE)
+	{
+
+		//cout << t.GetLexeme() << endl;
+		Parser::PushBackToken(t);
+		status = StmtList(in, line);
+
+		
+			if (status == false )
+		{
+			
+			ParseError(line, "Missing prog");
+	            return false;
+		}
+	
+		
+
+
+
+	}
+
+	
+		cout << "(DONE)" << endl;
+		return true;
+	
+}
+bool StmtList(istream &in, int &line)
+{
+
+	if(Stmt(in,line)){
+		LexItem t;
+		t = Parser::GetNextToken(in,line);
+		if(t == SEMICOL){
+			return StmtList(in,line);
+
+		}
+		else{
+			
+			return false;
+		}
+
+	}
+	//ParseError(line,"StmtList is wrong");
+	return false;
+
+
+
+	
+}
+bool Stmt(istream &in, int &line)
+{
+	LexItem t;
+	t = Parser::GetNextToken(in, line);
+
+	if (t == WRITELN)
+	{
+		//cout << t.GetLexeme() << endl;
+	//Parser::PushBackToken(t);
+		return WritelnStmt(in, line);
+	}
+	else if (t == IF)
+	{
+		Parser::PushBackToken(t);
+		return IfStmt(in, line);
+	}
+	else if (t == SIDENT || t == NIDENT)
+	{
+
+		Parser::PushBackToken(t);
+		return AssignStmt(in, line);
+	}
+
+	Parser::PushBackToken(t);
+	// ParseError(line, "something went wrong with statement");
+	return false; // issue test prog2 and 4
+}
+bool IfStmt(istream &in, int &line) // needs fixing
+{
+	LexItem t;
+
+	t = Parser::GetNextToken(in, line);
+
+	if (t == IF)
+	{
+
+		t = Parser::GetNextToken(in, line);
+
+		if (t == LPAREN)
+		{
+
+			Expr(in, line);
+			t = Parser::GetNextToken(in, line);
+			// cout << t.GetLexeme();
+			if (t == RPAREN)
+			{
+
+				t = Parser::GetNextToken(in, line);
+
+				if (t == LBRACES)
+				{
+
+					StmtList(in, line);
+
+					t = Parser::GetNextToken(in, line);
+
+					if (t == RBRACES)
+					{
+
+						t = Parser::GetNextToken(in, line);
+
+						if (t == ELSE)
+						{ // ELSE STATEMENT
+
+							t = Parser::GetNextToken(in, line);
+
+							if (t == LBRACES)
+							{
+
+								StmtList(in, line); // DOES NOT GO ALL THE WAY !
+
+								t = Parser::GetNextToken(in, line);
+							
+									
+								if (t == RBRACES)
+								{
+
+									return true;
+								}
+
+								// PROBLEM COMES FROM STMTLIST OR STMT, ITS GOING UP UNTIL THE ); L7
+								ParseError(line, "Something is wrong with the ELSE STATEMENT"); // else {wrong}
+								return false;
+							}
+						}
+						return true; // END OF IF LOOP NO ELSE
+					}
+
+					ParseError(line, "Something is wrong with the IF STATEMENT"); // IF{wrong}
+					return false;
+				}
+			}
+		}
+		ParseError(line, "Something is wrong with the WHOLE IF STATEMENT");
+		return false;
+	}
+	return false;
+}
+bool AssignStmt(istream &in, int &line)
+{
+
+	LexItem t;
+
+	if (Var(in, line))
+	{
+
+		t = Parser::GetNextToken(in, line);
+
+		if (t == ASSOP)
+		{
+
+			if (Expr(in, line)) // EXPR does not consider )
+			{
+				t = Parser::GetNextToken(in, line);
+				if(!(t == RPAREN)){
+					Parser::PushBackToken(t);
+				}
+				return true;
+			}
+			
+			return false;
+		}
+		
+		Parser::PushBackToken(t);
+		return false; // might revert back to true
+	}
+
+	ParseError(line, "something went wrong with assignment");
+	return false;
+}
+bool Var(istream &in, int &line)
+{
+
+	// map<string, bool> defVar
+	LexItem t;
+	t = Parser::GetNextToken(in, line);
+
+	if (t == NIDENT || t == SIDENT)
+	{
+
+		if (defVar[t.GetLexeme()] == false)
+		{
+			defVar[t.GetLexeme()] = true;
+		}
+		return true;
+	}
+	ParseError(line, "something went wrong with var");
+	return false;
+}
+bool Expr(istream &in, int &line)
+{
+
+	if (RelExpr(in, line)) // ISSUE WITH FOLLOWS
+	{
+		LexItem t;
+
+		t = Parser::GetNextToken(in, line);
+			
+		if (t == SEQ || t == NEQ)
+		{
+			if (RelExpr(in, line))
+			{
+
+				return true;
+			}
+			ParseError(line, "Expression is wrong");
+			return false;
+		}
+
+		Parser::PushBackToken(t);
+		return true;
+	}
+	ParseError(line, "something went wrong with expr");
+	return false;
+}
+bool RelExpr(istream &in, int &line) // STOPPED HERE ON 03/16, FOLLOW LINE 7 $y_1 = (7.5);
+{
+	// debug
+
+	if (AddExpr(in, line)) // folow
+	{
+		LexItem t;
+
+		t = Parser::GetNextToken(in, line);
+
+		
+		if (t == SGTHAN || t == SLTHAN || t == NGTHAN || t == NLTHAN)
+		{
+			if (AddExpr(in, line))
+			{
+
+				return true;
+			}
+
+			ParseError(line, "Something is wrong with the expression");
+			return false;
+		}
+
+		Parser::PushBackToken(t);
+		return true;
+	}
+
+	ParseError(line, "something went wrong with RELEXPR");
+	return false;
+}
+bool AddExpr(istream &in, int &line)
+{
+	LexItem t;
+
+	if (MultExpr(in, line))
+	{
+		LexItem t;
+		t = Parser::GetNextToken(in, line);
+
+		if (t == PLUS || t == MINUS || t == CAT)
+		{
+
+			if (MultExpr(in, line))
+			{
+				return true;
+			}
+
+			ParseError(line, "Not A AddExpr");
+			return false;
+		}
+		Parser::PushBackToken(t);
+		return true;
+	}
+
+	//ParseError(line,"something went wrong with Addexpr");
+	return false;
+}
+bool MultExpr(istream &in, int &line)
+{
+
+	if (ExponExpr(in, line))
+	{
+		LexItem t;
+		t = Parser::GetNextToken(in, line);
+
+		if (t == DIV || t == MULT || t == SREPEAT)
+		{
+			if (ExponExpr(in, line))
+			{
+
+				return true;
+			}
+			ParseError(line, "Not A MultExpr");
+			return false;
+		}
+
+		Parser::PushBackToken(t);
+
+		return true;
+	}
+	// ParseError(line,"something went wrong with MULTEXP");
+	return false;
+}
+bool ExponExpr(istream &in, int &line)
+{
+
+	if (UnaryExpr(in, line))
+	{
+
+		LexItem t;
+		t = Parser::GetNextToken(in, line);
+		
+		if (t == EXPONENT)
+		{
+			if (UnaryExpr(in, line))
+			{
+				return true;
+			}
+			ParseError(line, "Not A ExponExpr");
+			return false;
+		}
+		Parser::PushBackToken(t);
+		return true;
+	}
+
+	// ParseError(line,"something went wrong with EXP");
+	return false;
+}
+bool UnaryExpr(istream &in, int &line)
+{
+
+	if (PrimaryExpr(in, line, -1))
+	{
+
+		LexItem t;
+
+		t = Parser::GetNextToken(in, line);
+
+		if (t == PLUS)
+		{
+			if (PrimaryExpr(in, line, 1))
+			{
+
+				return true;
+			}
+
+			ParseError(line, "Not A UnaryExpr");
+			return false;
+		}
+		else if (t == MINUS)
+		{
+			if (PrimaryExpr(in, line, 0))
+			{
+
+				return true;
+			}
+
+			ParseError(line, "Not A UnaryExpr");
+			return false;
+		}
+
+		Parser::PushBackToken(t);
+		return true;
+	}
+
+	return false;
+}
+bool PrimaryExpr(istream &in, int &line, int sign) // MINUS = 0 PLUS = 1
+
+{
+
+	LexItem t;
+
+	t = Parser::GetNextToken(in, line);
+	
+	if (t == SIDENT || t == NIDENT)
+	{
+		if (defVar[t.GetLexeme()] == false)
+		{
+			ParseError(line, "variable is unknown");
+			return false;
+		}
+		return true;
+	}
+
+	else if (t == IDENT || t == ICONST || t == RCONST ||
+					 t == SCONST)
+	{
+
+		return true;
+	}
+	else
+	{
+
+		if (Expr(in, line))
+		{
+
+			return true;
+		}
+
+		//Parser::PushBackToken(t);
+	}
+
+	ParseError(line, "Not A PrimaryExpr");
+	return false;
+}

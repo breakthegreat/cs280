@@ -1,0 +1,35 @@
+bool status = false;
+	// cout << "in ExprList and before calling Expr" << endl;
+	status = Stmt(in, line);
+
+	LexItem tok;
+
+	if (!status)
+	{
+		// tok = Parser::GetNextToken(in, line);
+
+		ParseError(line, "Missing Stmtlist Statement");
+		return false;
+	}
+	tok = Parser::GetNextToken(in, line);
+
+	if (tok == SEMICOL)
+	{
+
+		status = StmtList(in, line);
+	}
+	else
+	{
+		
+		tok = Parser::GetNextToken(in, line);
+		if(tok == SEMICOL){
+			status = StmtList(in, line);
+		}
+		else{
+		//cout << tok.GetLexeme() << endl;
+		Parser::PushBackToken(tok);
+		return false;
+	}
+	}
+
+	return status;

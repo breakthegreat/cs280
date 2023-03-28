@@ -16,14 +16,13 @@ string DecToBaseN(int num, int base)
     {
         return remainder;
     }
-   
-   
+
     if (base == 16)
     {
 
         rem = num % base;
         num = num / base;
-        
+
         if (rem == 10)
         {
             remainder += "A";
@@ -32,29 +31,29 @@ string DecToBaseN(int num, int base)
         {
             remainder += "B";
         }
-         else if (rem == 12)
+        else if (rem == 12)
         {
             remainder += "C";
         }
-         else if (rem == 13)
+        else if (rem == 13)
         {
             remainder += "D";
         }
-         else if (rem == 14)
+        else if (rem == 14)
         {
             remainder += "E";
         }
-         else if (rem == 15)
+        else if (rem == 15)
         {
             remainder += "F";
         }
-        else{
-        remainder += to_string(rem);
+        else
+        {
+            remainder += to_string(rem);
         }
         return DecToBaseN(num, base) + remainder;
     }
 
-   
     else if (base > 1 && base <= 10)
     {
 
