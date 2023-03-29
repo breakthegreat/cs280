@@ -1,0 +1,2 @@
+Please enter a postfix expression for evalution, using only single lowercase characters as variables:
+The result of evaluating the postfix expression "5 12 4 - 15 * +" is the value: 125
