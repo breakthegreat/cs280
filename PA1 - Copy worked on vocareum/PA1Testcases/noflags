@@ -1,9 +1,0 @@
-	$r = 50;
-	@flag = 'true';
-	if (flag -seq 'true') {
-		$y_1 = 5;
-	}
-	else {
-		$y_1 = (7.5);
-	}
-	writeln 'Value = ', $r, '$y_1 = ', $y_1;

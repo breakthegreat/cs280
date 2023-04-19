@@ -1,4 +1,0 @@
-TODO :
-FIX THIS : https://gyazo.com/32ab6ccb68a3df0b648419e311d3b03b
-IMPLEMENT THE ID KW FUNCTION
-PRAY 

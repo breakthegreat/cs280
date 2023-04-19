@@ -17,7 +17,7 @@ int main()
   //	cout<<"Please enter a postfix expression for evalution, using only single lowercase characters as variables:" << endl;
   // getline(cin, instr);
 
-  instr = "137 45 21 % -";
+  instr = "152 45 x 4 + $y 12 * +";
   // cout << instr << endl;
   PostfixEval(instr);
   // cout << endl;

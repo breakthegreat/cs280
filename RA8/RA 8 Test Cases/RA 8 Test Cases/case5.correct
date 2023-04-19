@@ -1,0 +1,49 @@
+ErrorVal=ERROR
+doubleVal1=7.25
+doubleVal2=3.00
+StrVal1="CS280"
+StrVal2="Spring 2023"
+StrVal3="25.7"
+StrVal4="3.0"
+ERROR -lt 7.25 is ERROR
+ERROR -lt 3.00 is ERROR
+ERROR -lt "CS280" is ERROR
+ERROR -lt "Spring 2023" is ERROR
+ERROR -lt "25.7" is ERROR
+ERROR -lt "3.0" is ERROR
+7.25 -lt ERROR is ERROR
+7.25 -lt 3.00 is false
+7.25 -lt "CS280" is true
+7.25 -lt "Spring 2023" is true
+7.25 -lt "25.7" is false
+7.25 -lt "3.0" is false
+3.00 -lt ERROR is ERROR
+3.00 -lt 7.25 is true
+3.00 -lt "CS280" is true
+3.00 -lt "Spring 2023" is true
+3.00 -lt "25.7" is false
+3.00 -lt "3.0" is true
+"CS280" -lt ERROR is ERROR
+"CS280" -lt 7.25 is false
+"CS280" -lt 3.00 is false
+"CS280" -lt "Spring 2023" is true
+"CS280" -lt "25.7" is false
+"CS280" -lt "3.0" is false
+"Spring 2023" -lt ERROR is ERROR
+"Spring 2023" -lt 7.25 is false
+"Spring 2023" -lt 3.00 is false
+"Spring 2023" -lt "CS280" is false
+"Spring 2023" -lt "25.7" is false
+"Spring 2023" -lt "3.0" is false
+"25.7" -lt ERROR is ERROR
+"25.7" -lt 7.25 is true
+"25.7" -lt 3.00 is true
+"25.7" -lt "CS280" is true
+"25.7" -lt "Spring 2023" is true
+"25.7" -lt "3.0" is true
+"3.0" -lt ERROR is ERROR
+"3.0" -lt 7.25 is true
+"3.0" -lt 3.00 is false
+"3.0" -lt "CS280" is true
+"3.0" -lt "Spring 2023" is true
+"3.0" -lt "25.7" is false

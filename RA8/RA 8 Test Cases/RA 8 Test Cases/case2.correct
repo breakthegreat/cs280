@@ -1,0 +1,67 @@
+ErrorVal=ERROR
+doubleVal1=7.25
+doubleVal2=3.00
+StrVal1="CS280"
+StrVal2="Spring 2023"
+StrVal3="25.7"
+StrVal4="3.0"
+ERROR == 7.25 is ERROR
+ERROR == 3.00 is ERROR
+ERROR == "CS280" is ERROR
+ERROR == "Spring 2023" is ERROR
+ERROR == "25.7" is ERROR
+ERROR == "3.0" is ERROR
+7.25 == ERROR is ERROR
+7.25 == 3.00 is false
+Invalid conversion from string to double.
+7.25 == "CS280" is ERROR
+Invalid conversion from string to double.
+7.25 == "Spring 2023" is ERROR
+7.25 == "25.7" is false
+7.25 == "3.0" is false
+3.00 == ERROR is ERROR
+3.00 == 7.25 is false
+Invalid conversion from string to double.
+3.00 == "CS280" is ERROR
+Invalid conversion from string to double.
+3.00 == "Spring 2023" is ERROR
+3.00 == "25.7" is false
+3.00 == "3.0" is true
+"CS280" == ERROR is ERROR
+Invalid conversion from string to double.
+"CS280" == 7.25 is ERROR
+Invalid conversion from string to double.
+"CS280" == 3.00 is ERROR
+Invalid conversion from string to double.
+"CS280" == "Spring 2023" is ERROR
+Invalid conversion from string to double.
+"CS280" == "25.7" is ERROR
+Invalid conversion from string to double.
+"CS280" == "3.0" is ERROR
+"Spring 2023" == ERROR is ERROR
+Invalid conversion from string to double.
+"Spring 2023" == 7.25 is ERROR
+Invalid conversion from string to double.
+"Spring 2023" == 3.00 is ERROR
+Invalid conversion from string to double.
+"Spring 2023" == "CS280" is ERROR
+Invalid conversion from string to double.
+"Spring 2023" == "25.7" is ERROR
+Invalid conversion from string to double.
+"Spring 2023" == "3.0" is ERROR
+"25.7" == ERROR is ERROR
+"25.7" == 7.25 is false
+"25.7" == 3.00 is false
+Invalid conversion from string to double.
+"25.7" == "CS280" is ERROR
+Invalid conversion from string to double.
+"25.7" == "Spring 2023" is ERROR
+"25.7" == "3.0" is false
+"3.0" == ERROR is ERROR
+"3.0" == 7.25 is false
+"3.0" == 3.00 is true
+Invalid conversion from string to double.
+"3.0" == "CS280" is ERROR
+Invalid conversion from string to double.
+"3.0" == "Spring 2023" is ERROR
+"3.0" == "25.7" is false

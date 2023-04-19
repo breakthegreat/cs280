@@ -169,14 +169,14 @@ bool StmtList(istream &in, int &line)
 	{
 		if (ErrCount() > 0)
 		{
-			
+
 			ParseError(line, "Syntactic Erorr bnody");
 			return false;
 		}
 	}
 	else
 	{
-		
+
 		LexItem t;
 		t = Parser::GetNextToken(in, line);
 		if (t == SEMICOL)
@@ -365,7 +365,6 @@ bool AssignStmt(istream &in, int &line)
 	ParseError(line, "Incorrect Assignment Statement.");
 	return false;
 }
-
 bool Var(istream &in, int &line)
 {
 

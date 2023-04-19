@@ -1,0 +1,49 @@
+ErrorVal=ERROR
+doubleVal1=7.25
+doubleVal2=3.00
+StrVal1="CS280"
+StrVal2="Spring 2023"
+StrVal3="25.7"
+StrVal4="3.0"
+ERROR . 7.25 is ERROR
+ERROR . 3.00 is ERROR
+ERROR . "CS280" is ERROR
+ERROR . "Spring 2023" is ERROR
+ERROR . "25.7" is ERROR
+ERROR . "3.0" is ERROR
+7.25 . ERROR is ERROR
+7.25 . 3.00 is "7.253"
+7.25 . "CS280" is "7.25CS280"
+7.25 . "Spring 2023" is "7.25Spring 2023"
+7.25 . "25.7" is "7.2525.7"
+7.25 . "3.0" is "7.253.0"
+3.00 . ERROR is ERROR
+3.00 . 7.25 is "37.25"
+3.00 . "CS280" is "3CS280"
+3.00 . "Spring 2023" is "3Spring 2023"
+3.00 . "25.7" is "325.7"
+3.00 . "3.0" is "33.0"
+"CS280" . ERROR is ERROR
+"CS280" . 7.25 is "CS2807.25"
+"CS280" . 3.00 is "CS2803"
+"CS280" . "Spring 2023" is "CS280Spring 2023"
+"CS280" . "25.7" is "CS28025.7"
+"CS280" . "3.0" is "CS2803.0"
+"Spring 2023" . ERROR is ERROR
+"Spring 2023" . 7.25 is "Spring 20237.25"
+"Spring 2023" . 3.00 is "Spring 20233"
+"Spring 2023" . "CS280" is "Spring 2023CS280"
+"Spring 2023" . "25.7" is "Spring 202325.7"
+"Spring 2023" . "3.0" is "Spring 20233.0"
+"25.7" . ERROR is ERROR
+"25.7" . 7.25 is "25.77.25"
+"25.7" . 3.00 is "25.73"
+"25.7" . "CS280" is "25.7CS280"
+"25.7" . "Spring 2023" is "25.7Spring 2023"
+"25.7" . "3.0" is "25.73.0"
+"3.0" . ERROR is ERROR
+"3.0" . 7.25 is "3.07.25"
+"3.0" . 3.00 is "3.03"
+"3.0" . "CS280" is "3.0CS280"
+"3.0" . "Spring 2023" is "3.0Spring 2023"
+"3.0" . "25.7" is "3.025.7"
